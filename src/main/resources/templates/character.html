@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero</title>
+</head>
+<body>
+    <div class="header"><h1>Карточка героя мультсериала</h1></div>
+    <div class="info">
+        <div class="item">
+            <img th:src="${character.image}" alt="Изображение персонажа">
+            <div class="item_text">
+                <h2 th:text="${character.name}"></h2>
+                <p class="informations" th:text="${character.id}"></p>
+                <p class="informations" th:text="${character.status}"></p>
+                <p class="informations" th:text="${character.species}"></p>
+                <p class="informations" th:text="${character.gender}"></p>
+                <p class="informations" th:text="${character.created}"></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
