@@ -1,29 +1,73 @@
 package ru.sergeypyzin.springrestapi.service;
 
-import com.example.example4sem6_rikky_and_morty_rest.domain.Characters;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.AllArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.sergeypyzin.springrestapi.domain.Characters;
+import ru.sergeypyzin.springrestapi.domain.Result;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
-public class ServiceApiImpl implements ServiceApi{
+@AllArgsConstructor
+public class ServiceApiImpl implements ServiceApi {
 
-    @Autowired
-    private RestTemplate template;
+    private final RestTemplate template;
+    private final HttpHeaders headers;
+    private final Environment environment;
 
-    @Autowired
-    private HttpHeaders headers;
-
-    private  static final String CHARACTER_API = "https://rickandmortyapi.com/api/character";
     @Override
     public Characters getAllCharacters() {
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<Characters> responce = template.exchange(CHARACTER_API, HttpMethod.GET,entity, Characters.class);
+        String path = environment.getProperty("CHARACTER_API");
+        ResponseEntity<Characters> responseEntity = getResponseEntity(path);
+        return responseEntity != null ? responseEntity.getBody() : null;
+    }
 
-        return responce.getBody();
+    @Override
+    public Result getCharacterById(Integer id) {
+        String pathToId = Objects.requireNonNull(environment.getProperty("CHARACTER_API")).concat("/").concat(String.valueOf(id));
+        ResponseEntity<Result> responseEntity = getResponseEntity(pathToId);
+        return responseEntity != null ? responseEntity.getBody() : null;
+    }
+
+    @Override
+    public Characters getSortedByName() {
+        Characters characters = getAllCharacters();
+        if (characters != null) {
+            characters.getResults().sort(Comparator.comparing(Result::getName));
+        }
+        return characters;
+    }
+
+    @Override
+    public Characters getSortedByGender() {
+        Characters characters = getAllCharacters();
+        if (characters != null) {
+            characters.getResults().sort(Comparator.comparing(Result::getGender));
+        }
+        return characters;
+    }
+
+    @Override
+    public Characters getSortedByCreated() {
+        Characters characters = getAllCharacters();
+        if (characters != null) {
+            characters.getResults().sort(Comparator.comparing(Result::getCreated));
+        }
+        return characters;
+    }
+
+    private <T> ResponseEntity<T> getResponseEntity(String path) {
+        if (path != null) {
+            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+            return template.exchange(path, HttpMethod.GET, entity, (Class<T>) Characters.class);
+        }
+        return null;
     }
 }
