@@ -30,9 +30,11 @@ public class ServiceApiImpl implements ServiceApi {
 
     @Override
     public Result getCharacterById(Integer id) {
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<String> httpEntity = new HttpEntity<>(headers);
         String pathToId = Objects.requireNonNull(environment.getProperty("CHARACTER_API")).concat("/").concat(String.valueOf(id));
-        ResponseEntity<Result> responseEntity = getResponseEntity(pathToId);
-        return responseEntity != null ? responseEntity.getBody() : null;
+        ResponseEntity<Result> responseEntity = template.exchange(pathToId, HttpMethod.GET, httpEntity, Result.class);
+        return responseEntity.getBody();
     }
 
     @Override
