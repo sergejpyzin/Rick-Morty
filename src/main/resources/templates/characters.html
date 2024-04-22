@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Рик и Морти</title>
-    <style>
-        /* Ваши стили CSS здесь */
-    </style>
+    <link th:href="@{/css/style.css}" rel="stylesheet" >
 </head>
 <body>
 <div class="header"><h1>Герои мультсериала "Рик и Морти"</h1></div>
@@ -21,14 +19,11 @@
 <div class="items">
     <div th:each="ch : ${characters}">
         <div class="item">
-            <img th:src="${ch.image}" alt="Изображение героя">
+            
             <div class="item-info">
                 <h3 th:text="${ch.id}"></h3>
                 <h3 th:text="${ch.name}"></h3>
-                <h3 th:text="${ch.species}"></h3>
-                <h3 th:text="${ch.gender}"></h3>
-                <h3 th:text="${ch.created}"></h3>
-                <a class="choice_hero" th:href="@{'../../character/' + ${ch.id}}">Посмотреть</a>
+                <a class="choice_hero" th:href="@{'../../character/' + ${ch.id}}"><img th:src="${ch.image}" alt="Изображение героя"></a>
             </div>
         </div>
     </div>
