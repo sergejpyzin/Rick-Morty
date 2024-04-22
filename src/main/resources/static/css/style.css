@@ -1,20 +1,44 @@
+:root {
+    --color-black: #333;
+    --color-white: #fff;
+    --color-text: #f4f4f4;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: var(--color-white);
+}
+
+body.dark {
+    background-color: var(--color-black);
 }
 
 .header {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--color-black);
+    color: var(--color-white);
     padding: 20px;
     text-align: center;
 }
 
+.header.dark {
+    color: var(--color-black);
+    background-color: var(--color-white);
+}
+
+.theme-btn {
+    
+}
+
 .text {
-    background-color: #f4f4f4;
+    background-color: var(--color-text);
     padding: 10px;
     text-align: center;
+}
+
+.text.dark {
+    background-color: var(--color-white);
 }
 
 .items {
@@ -25,13 +49,18 @@ body {
 }
 
 .item {
-    background-color: #fff;
+    background-color: var(--color-white);
     border: 1px solid #ccc;
     border-radius: 5px;
     margin: 10px;
     padding: 10px;
     width: 200px;
     text-align: center;
+    position: relative;
+}
+
+.item.dark {
+    background-color: var(--color-black);
 }
 
 .item img {
@@ -42,7 +71,34 @@ body {
     transition: transform 0.3s ease-in-out;
 }
 
+.item-btn {
+    position: absolute;
+    padding: 2px;
+    background-color: transparent;
+    height: 20px;
+    width: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    top: 10px;
+    right: 10px;
+}
 
+.item-btn.like svg g path {
+    fill: red;
+}
+
+.item-btn.dark.like svg g path {
+    fill: red;
+}
+
+.item-btn svg g path {
+    fill: rgb(0, 0, 0);
+}
+
+.item-btn.dark svg g path {
+    fill: var(--color-white);
+}
 
 .item-info {
     padding: 5px;
@@ -51,21 +107,33 @@ body {
 .choice {
     margin: 0 10px;
     text-decoration: none;
-    color: #333;
+    color: var(--color-black);
+}
+
+.choice.dark {
+    color: var(--color-white);
 }
 
 .choice:hover {
     color: #555;
 }
 
+.choice.dark:hover {
+    color: var(--color-text);
+}
+
 .choice_hero {
     display: block;
     margin-top: 10px;
     text-decoration: none;
-    color: #fff;
+    color: var(--color-white);
     background-color: transparent;
     padding: 5px 10px;
     border-radius: 5px;
+}
+
+.choice_hero.dark {
+    color: var(--color-black);
 }
 
 .choice_hero:hover img{
