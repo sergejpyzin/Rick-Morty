@@ -1,3 +1,9 @@
+:root {
+    --color-white: #fff;
+    --color-black: #979797;
+    --color-text: #333;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -11,9 +17,6 @@ body.dark {
 
 .header {
     background-color: var(--color-black);
-    color: var(--color-white);
-    background-color: var(--color-black);
-    color: var(--color-white);
     padding: 20px;
     text-align: center;
 }
@@ -23,12 +26,9 @@ body.dark {
     background-color: var(--color-white);
 }
 
-.theme-btn {
-    
-}
+
 
 .text {
-    background-color: var(--color-text);
     background-color: var(--color-text);
     padding: 10px;
     text-align: center;
@@ -46,7 +46,6 @@ body.dark {
 }
 
 .item {
-    background-color: var(--color-white);
     background-color: var(--color-white);
     border: 1px solid #ccc;
     border-radius: 5px;
