@@ -25,7 +25,7 @@ public class ServiceApiImpl implements ServiceApi {
     public Characters getAllCharacters() {
         String path = environment.getProperty("CHARACTER_API");
         ResponseEntity<Characters> responseEntity = getResponseEntity(path);
-        return responseEntity != null ? responseEntity.getBody() : null;
+        return responseEntity.getBody();
     }
 
     @Override
@@ -39,37 +39,52 @@ public class ServiceApiImpl implements ServiceApi {
 
     @Override
     public Characters getSortedByName() {
-        Characters characters = getAllCharacters();
-        if (characters != null) {
-            characters.getResults().sort(Comparator.comparing(Result::getName));
-        }
-        return characters;
+        String path = environment.getProperty("CHARACTER_API");
+        ResponseEntity<Characters> responseEntity = getResponseEntity(path);
+        Objects.requireNonNull(responseEntity.getBody()).setResults(responseEntity.getBody().getResults().stream().sorted(compareByName).toList());
+        return responseEntity.getBody();
     }
 
-    @Override
     public Characters getSortedByGender() {
-        Characters characters = getAllCharacters();
-        if (characters != null) {
-            characters.getResults().sort(Comparator.comparing(Result::getGender));
-        }
-        return characters;
+        String path = environment.getProperty("CHARACTER_API");
+        ResponseEntity<Characters> responseEntity = getResponseEntity(path);
+        Objects.requireNonNull(responseEntity.getBody()).setResults(responseEntity.getBody().getResults().stream().sorted(compareByGender).toList());
+        return responseEntity.getBody();
     }
 
-    @Override
     public Characters getSortedByCreated() {
-        Characters characters = getAllCharacters();
-        if (characters != null) {
-            characters.getResults().sort(Comparator.comparing(Result::getCreated));
-        }
-        return characters;
+        String path = environment.getProperty("CHARACTER_API");
+        ResponseEntity<Characters> responseEntity = getResponseEntity(path);
+        Objects.requireNonNull(responseEntity.getBody()).setResults(responseEntity.getBody().getResults().stream().sorted(compareByCreated).toList());
+        return responseEntity.getBody();
     }
 
-    private <T> ResponseEntity<T> getResponseEntity(String path) {
-        if (path != null) {
-            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-            HttpEntity<String> entity = new HttpEntity<>(headers);
-            return template.exchange(path, HttpMethod.GET, entity, (Class<T>) Characters.class);
-        }
-        return null;
+    private ResponseEntity<Characters> getResponseEntity(String path) {
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        return template.exchange(path, HttpMethod.GET, entity, Characters.class);
+
+
     }
+
+    public static Comparator<Result> compareByName = new Comparator<Result>() {
+        @Override
+        public int compare(Result o1, Result o2) {
+            return o1.getName().compareTo(o2.getName());
+        }
+    };
+
+    public static Comparator<Result> compareByGender = new Comparator<Result>() {
+        @Override
+        public int compare(Result o1, Result o2) {
+            return o1.getGender().compareTo(o2.getGender());
+        }
+    };
+
+    public static Comparator<Result> compareByCreated = new Comparator<Result>() {
+        @Override
+        public int compare(Result o1, Result o2) {
+            return o1.getCreated().compareTo(o2.getCreated());
+        }
+    };
 }

@@ -1,34 +1,37 @@
 <!DOCTYPE html>
-<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Рик_и_Морти</title>
+    <title>Рик и Морти</title>
+    <style>
+        /* Ваши стили CSS здесь */
+    </style>
 </head>
 <body>
-    <div class="header"><h1>Герои мультсериала Рик И Морти</h1></div>
-    <div class="text">
-        <h2>Список героев</h2>
-        <a class="choice" href="../../characters">№ п/п</a>
-        <a class="choice" href="../../characters/sortbyname">Имя</a>
-        <a class="choice" href="../../characters/sortbygender">Пол</a>
-        <a class="choice" href="../../characters/sortbycreated">Дата создания</a>
-    </div>
+<div class="header"><h1>Герои мультсериала "Рик и Морти"</h1></div>
+<div class="text">
+    <h2>Список героев</h2>
+    <a class="choice" href="../../characters">№ п/п</a>
+    <a class="choice" href="../../characters/sortbyname">Имя</a>
+    <a class="choice" href="../../characters/sortbygender">Пол</a>
+    <a class="choice" href="../../characters/sortbycreated">Дата создания</a>
+</div>
 
-    <div class="items">
-        <tr th:each="character: ${characters}">
-            <div class="item">
-                <img th:src="${character.image}" alt="Изображение героя">
-                <div class="item-info">
-                    <h3 th:text="${character.id}"></h3>
-                    <h3 th:text="${character.name}"></h3>
-                    <h3 th:text="${character.species}"></h3>
-                    <h3 th:text="${character.gender}"></h3>
-                    <h3 th:text="${character.created}"></h3>
-                    <a class="choice_hero" th:href="@{'../../character/' + ${character.id}}">Посмотреть</a>
-                </div>
+<div class="items">
+    <div th:each="ch : ${characters}">
+        <div class="item">
+            <img th:src="${ch.image}" alt="Изображение героя">
+            <div class="item-info">
+                <h3 th:text="${ch.id}"></h3>
+                <h3 th:text="${ch.name}"></h3>
+                <h3 th:text="${ch.species}"></h3>
+                <h3 th:text="${ch.gender}"></h3>
+                <h3 th:text="${ch.created}"></h3>
+                <a class="choice_hero" th:href="@{'../../character/' + ${ch.id}}">Посмотреть</a>
             </div>
-        </tr>
+        </div>
     </div>
+</div>
 </body>
 </html>
