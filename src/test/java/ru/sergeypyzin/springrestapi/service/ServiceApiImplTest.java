@@ -22,17 +22,23 @@ class ServiceApiImplTest {
     private RestTemplate restTemplate;
 
     @Mock
-    private HttpHeaders headers;
-
-    @Mock
     private Environment environment;
 
     @InjectMocks
     private ServiceApiImpl serviceApi;
 
+    private HttpHeaders headers;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        // Инициализация заголовков
+        headers = new HttpHeaders();
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        // Настройка заголовков в моке
+        serviceApi = new ServiceApiImpl(restTemplate, headers, environment);
     }
 
     @Test
@@ -72,8 +78,6 @@ class ServiceApiImplTest {
         assertEquals(1, result.getId());
         verify(restTemplate, times(1)).exchange(eq(apiUrl), eq(HttpMethod.GET), any(HttpEntity.class), eq(Result.class));
     }
-
-    // Additional tests for sorting methods...
 
     @Test
     void getSortedByName() {
